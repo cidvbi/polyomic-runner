@@ -9,6 +9,7 @@
   			"email": "dmachi@vbi.vt.edu"
   	  	}
 	],
+	"bin": {"polyrun":"./polyrun"},
 	"dependencies": {
 		"optimist": "*",
 		"promised-io": ">=0.3.0",
