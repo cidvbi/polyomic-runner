@@ -1,0 +1,25 @@
+{
+	"name": "PolyomicRunner",
+	"author": "Dustin Machi",
+	"version": "0.0.1",
+	"contributors": [],
+	"maintainers": [
+		{
+  			"name": "Dustin Machi",
+  			"email": "dmachi@vbi.vt.edu"
+  	  	}
+	],
+	"dependencies": {
+		"optimist": "*",
+		"promised-io": ">=0.3.0",
+		"request":"*",
+		"redis": "*",
+		"ws":"*",
+		"dojo-declare":"*",
+		"generic-pool":"*",
+		"node-uuid": "*",
+		"fs-extra":"*",
+		"git-wrapper":"*",
+		"ejs":"*"
+	}
+}

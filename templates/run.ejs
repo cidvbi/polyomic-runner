@@ -1,0 +1,7 @@
+./setupEnv.sh <% 
+	Object.keys(job.toolParameters)
+		.filter(function(key){ return job.toolParameters[key].launch})
+		.forEach(function(key,index) {
+			%>&& ./tools/<%= key %>/<%= _collectionMeta.tools[key].toolLaunchScript.path %>
+		<% }) %>	
+			

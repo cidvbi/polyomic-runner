@@ -1,0 +1,32 @@
+{
+	"id": "JOBID_1234",
+
+	"//runas": "OPTIONAL This is the user this job will run as on the resource. ",
+	"runAs": "http://user.polyomic.local:3000/dmachi",
+
+	"//workingCollection": "OPTIONAL This is the 'home' directory for this job.",
+	"workingCollection": "http://collection.polyomic.local:3003/collection/fd3fb79c-8db7-4d21-9268-eee9065302b5",
+
+	"//tools": "REQUIRED-1+ : Array of Tool Collections to mount for this job",
+	"tools": ["http://collection.polyomic.local:3003/collection/91411453-eb3f-4b36-8b8a-9aa635788288"],
+
+	"//workspaceId": "OPTIONAL:When supplied, when information from a workspace is required for a job, it will be obtained here, rather than the users default workspace", 
+	"////workspaceId": "http://workspace.polyomic.local:3003/dmachi/test",
+
+	"//collections": "collections to be mounted to the working collection for use by jobs/tools" ,
+	"collections": [],
+
+	"//jobParameters":"System Supplied Paramters about how to run the job base (cluster params, user restrictions, etc).",
+	"jobParameters": {
+
+	},
+
+	"//toolParameters":"Parameters supplied for the tool.  This will be generated (before it arrives here) by the mixing together global,user pref,workspace workspace pref, and user supplied input.  This object should be namespaced by a tools name or id." ,
+	"toolParameters":{
+		"someProp": "foo",
+
+		"TestTool": {
+			"launch": true
+		}
+	}
+}
