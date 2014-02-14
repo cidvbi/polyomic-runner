@@ -1,4 +1,4 @@
-#PolyomicRunner
+#polyomic-runner
 
 Job Runner for Polyomic.
 
