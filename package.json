@@ -1,5 +1,5 @@
 {
-	"name": "polyomicrunnner",
+	"name": "polyomic-runnner",
 	"description": "Polyomic Runner",
 	"author": "Dustin Machi",
 	"version": "0.0.1",
@@ -7,15 +7,15 @@
 	"maintainers": [
 		{
   			"name": "Dustin Machi",
-  			"email": "dmachi@dojotoolkit.org"
+  			"email": "dmachi@vbi.vt.edu"
   	  	}
 	],
 	"bugs": { 
-		"url" : "http://github.com/cidvbi/PolyomicRunner/issues",
+		"url" : "http://github.com/cidvbi/polyomic-runner/issues",
 		"email" : "dmachi@vbi.vt.edu"
 	},
 	"repository": { 
-		"url" : "http://github.com/cidvbi/PolyomicRunner.git",
+		"url" : "http://github.com/cidvbi/polyomic-runner.git",
 		"type" : "git"
 	},
 	
@@ -23,7 +23,7 @@
 
 	"dependencies": {
 		"optimist": "*",
-		"promised-io": ">=0.3.0",
+		"promised-io": "*",
 		"request":"*",
 		"redis": "*",
 		"ws":"*",
