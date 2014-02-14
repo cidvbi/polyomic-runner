@@ -1,5 +1,6 @@
 {
-	"name": "PolyomicRunner",
+	"name": "polyrun",
+	"description": "Polyomic runner",
 	"author": "Dustin Machi",
 	"version": "0.0.1",
 	"contributors": [],
