@@ -1,5 +1,5 @@
 {
-	"name": "polyomic-runnner",
+	"name": "polyomic-runner",
 	"description": "Polyomic Runner",
 	"author": "Dustin Machi",
 	"version": "0.0.1",
@@ -19,17 +19,13 @@
 		"type" : "git"
 	},
 	
-	"bin": {"polyrun":"./polyrun"},
+	"bin": {"polyrun":"./index.js"},
+	"main": "./index.js",
 
 	"dependencies": {
 		"optimist": "*",
 		"promised-io": "*",
 		"request":"*",
-		"redis": "*",
-		"ws":"*",
-		"dojo-declare":"*",
-		"generic-pool":"*",
-		"node-uuid": "*",
 		"fs-extra":"*",
 		"git-wrapper":"*",
 		"ejs":"*"

@@ -5,7 +5,6 @@ var when = require("promised-io/promise").when;
 var defer = require("promised-io/promise").defer;
 var All = require("promised-io/promise").all;
 var fs = require('fs-extra');
-var pkg = require("./package.json");
 var request = require('request');
 var setupWorkingDirectory = require("./workingdirectory").setup;
 var mountCollections= require("./collectiontools").mountCollections;
@@ -15,6 +14,8 @@ var setupTools = require("./tools").setup;
 var cleanupJob = require("./job").cleanupJob;
 var updateJobState = require("./job").updateJobState;
 var timer = require("./timer").timer;
+
+var pkg = fs.readJsonSync(Path.join(__dirname,"package.json"));
 
 var argv = require("optimist")
 	.usage('Polyomic Runner ' + pkg.version + "\n\n$0")
