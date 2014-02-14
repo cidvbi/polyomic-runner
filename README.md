@@ -14,7 +14,7 @@ npm install -g polyomicrunner
 > polyrun
 
 Options:
-  -c, --config     Path to Polyrun Config                         [required]  [default: "/etc/polyrun.conf"]
+  -c, --config     Path to Polyrun Config    [required]  [default: "/etc/polyrun.conf"]
   -j, --job        Polyomic Job URL                             
   -f, --file       Polyomic Job JSON File                       
   -C, --nocleanup  Skip Cleanup of Working Dir on Job Completion
