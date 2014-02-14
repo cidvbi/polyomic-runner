@@ -9,7 +9,17 @@
   			"email": "dmachi@vbi.vt.edu"
   	  	}
 	],
+	"bugs": { 
+		"url" : "http://github.com/cidvbi/PolyomicRunner/issues",
+		"email" : "dmachi@vbi.vt.edu"
+	},
+	"repository": { 
+		"url" : "http://github.com/cidvbi/PolyomicRunner.git",
+		"type" : "git"
+	},
+	
 	"bin": {"polyrun":"./polyrun"},
+
 	"dependencies": {
 		"optimist": "*",
 		"promised-io": ">=0.3.0",
