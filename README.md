@@ -4,7 +4,9 @@ Job Runner for Polyomic.
 
 ##Installation
 
+````
 npm install -g polyomicrunner
+````
 
 ## Execute
 
