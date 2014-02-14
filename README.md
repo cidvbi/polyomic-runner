@@ -8,6 +8,7 @@ npm install -g polyomicrunner
 
 ## Execute
 
+````
 > polyrun
 
 Options:
@@ -15,7 +16,7 @@ Options:
   -j, --job        Polyomic Job URL                             
   -f, --file       Polyomic Job JSON File                       
   -C, --nocleanup  Skip Cleanup of Working Dir on Job Completion
-
+````
 
 ## Configuration
 
