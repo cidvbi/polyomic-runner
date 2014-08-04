@@ -14,6 +14,7 @@ var setupTools = require("./tools").setup;
 var cleanupJob = require("./job").cleanupJob;
 var updateJobState = require("./job").updateJobState;
 var timer = require("./timer").timer;
+var Path = require("path");
 
 var pkg = fs.readJsonSync(Path.join(__dirname,"package.json"));
 
@@ -29,6 +30,8 @@ var argv = require("optimist")
 	.describe("f", "Polyomic Job JSON File")
 	.describe("C","Skip Cleanup of Working Dir on Job Completion")
 	.alias("C", "nocleanup")
+	.alias("W","noCloneWorkDir")
+	.describe("W", "Assume CWD is already a clone of the Working Directory Collection")
 	.check(function(a){
 		if (!a.file && !a.job){ throw "ERROR: Missing Job id (-j) or Job JSON file (-f)\n" }
 	})
@@ -69,8 +72,16 @@ var argv = require("optimist")
 		});
 	}	
 
+	var setupWorkDir = function(polyrun){
+		if (argv.noCloneWorkDir){
+			return startPath
+		}else{
+			return setupWorkingDirectory(polyrun);
+		}
+	}
+
 	var setupAndRun = function(){
-		return when(setupWorkingDirectory(polyrun), function(workdir){
+		return when(setupWorkDir(polyrun), function(workdir){
 			return when(mountJobCollections(polyrun, workdir), function(metadata){
 				polyrun._collectionMeta = metadata;
 				return when(setupTools(polyrun, workdir), function(executor){
