@@ -23,10 +23,13 @@ var generateTemplates = exports.generateTemplates = function(polyrun,workdir){
 		var toolConf = polyrun._collectionMeta.tools[key];
 		console.log("Generating Templates for Tool '" + key + "'");
 		if (toolConf.toolTemplates) {
+			console.log("toolConf.toolTemplates: ", toolConf.toolTemplates);
 			toolConf.toolTemplates.forEach(function(t){
 				defs.push(generateTemplate(polyrun,Path.join(workdir,"tools",key) ,t))
 			});			
-		}	
+		}else{
+			defs.push(true);
+		}
 	});
 	
 	return All(defs);
@@ -52,6 +55,7 @@ var generateTemplate = exports.generateTemplate=function(polyrun,workdir,tempDef
 	var def = new defer();
 	when(getTemplateLocation(polyrun,workdir,tempDef.path), function(tpath) {
 		if (!tpath) { def.reject(null); return;}
+		console.log("Render Template: ", tpath, polyrun);
 		ejs.renderFile(tpath,polyrun, function(renderError, output){
 			if (renderError) { return def.reject(renderError); }
 			var outfile;
