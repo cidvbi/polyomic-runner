@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 var argv = require("optimist");
 var when = require("promised-io/promise").when;
 var defer = require("promised-io/promise").defer;
@@ -16,7 +15,7 @@ var cleanupJob = require("./job").cleanupJob;
 var updateJobState = require("./job").updateJobState;
 var timer = require("./timer").timer;
 var Path = require("path");
-
+var pkgJson = require("./package.json");
 var pkg = fs.readJsonSync(Path.join(__dirname,"package.json"));
 
 var argv = require("optimist")
@@ -33,6 +32,11 @@ var argv = require("optimist")
 	.alias("C", "nocleanup")
 	.alias("W","noCloneWorkDir")
 	.describe("W", "Assume CWD is already a clone of the Working Directory Collection")
+	.alias("-B","noBranching")
+	.describe("B","Don't branch the working collection before starting a job or merge when complete")
+	.alias("v","version")
+	.describe("v", "Show version information");
+	
 	.check(function(a){
 		if (!a.file && !a.job){ throw "ERROR: Missing Job id (-j) or Job JSON file (-f)\n" }
 	})
@@ -46,6 +50,11 @@ var argv = require("optimist")
 		arch: process.arch,
 		env: process.env
 	}
+	iv (argv.version){
+		console.log("polyrun version:", pkgJson.version);
+		process.exit(0);
+	}
+
 	var configDef= new defer();
 	console.log("Reading config file: ", argv.config);
 	fs.readJson(argv.config, function(err, config){
@@ -53,6 +62,11 @@ var argv = require("optimist")
 		polyrun.config = config;
 		configDef.resolve(config);		
 	});
+
+	if (argv.noBranching){
+		polyrun.noBranching = true;
+	}
+
 
 	var jobDef = new defer();
 	if (argv.file) {
@@ -72,6 +86,7 @@ var argv = require("optimist")
 			jobDef.resolve(job);
 		});
 	}	
+
 
 	var setupWorkDir = function(polyrun){
 		if (argv.noCloneWorkDir){

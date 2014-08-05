@@ -36,13 +36,17 @@ exports.setup = function(polyrun) {
 					when(cloneCollection(polyrun, checkRes.path, dest), function(meta){
 						console.log("Working Directory Ready: ", Path.join(basePath,colId));
 						process.chdir(Path.join(basePath,colId));
-						git.exec("branch", ["polyrun"], function(branchError,msg){
-							if (branchError) { return def.reject(branchError); }
-							git.exec("checkout",["polyrun"], function(checkoutError, msg) {
-								if (checkoutError) { return def.reject(checkoutError); }
-								def.resolve(dest);
+						if (!polyrun.noBranching) {
+							git.exec("branch", ["polyrun"], function(branchError,msg){
+								if (branchError) { return def.reject(branchError); }
+								git.exec("checkout",["polyrun"], function(checkoutError, msg) {
+									if (checkoutError) { return def.reject(checkoutError); }
+									def.resolve(dest);
+								});
 							});
-						});
+						}else{
+							def.resolve(dest);
+						}
 					});			
 				}
 			});
@@ -52,13 +56,18 @@ exports.setup = function(polyrun) {
 
 			return when(cloneCollection(polyrun, workingCollectionURL, dest), function(meta){
 				console.log("Working Directory Ready: ", Path.join(basePath,colId));
-				git.exec("branch", ["polyrun"], function(branchError,msg){
-					if (branchError) { return def.reject(branchError); }
-					git.exec("checkout",["polyrun"], function(checkoutError, msg) {
-						if (checkoutError) { return def.reject(checkoutError); }
-						def.resolve(dest);
+
+				if (!polyrun.noBranching) {
+					git.exec("branch", ["polyrun"], function(branchError,msg){
+						if (branchError) { return def.reject(branchError); }
+						git.exec("checkout",["polyrun"], function(checkoutError, msg) {
+							if (checkoutError) { return def.reject(checkoutError); }
+							def.resolve(dest);
+						});
 					});
-				});
+				}else{
+					def.resolve(dest);
+				}
 			});
 		}
 			
@@ -73,13 +82,17 @@ var setupExisting = exports.setupExisting = function(polyrun, workingDirectory){
 		if (exists) {
 			console.log("Working Directory Ready: ", workingDirectory);
 			process.chdir(workingDirectory);
-			git.exec("branch", ["polyrun"], function(branchError,msg){
-				if (branchError) { return def.reject(branchError); }
-				git.exec("checkout",["polyrun"], function(checkoutError, msg) {
-					if (checkoutError) { return def.reject(checkoutError); }
-					def.resolve(workingDirectory);
+			if (!polyrun.noBranching) {
+				git.exec("branch", ["polyrun"], function(branchError,msg){
+					if (branchError) { return def.reject(branchError); }
+					git.exec("checkout",["polyrun"], function(checkoutError, msg) {
+						if (checkoutError) { return def.reject(checkoutError); }
+						def.resolve(workingDirectory);
+					});
 				});
-			});
+			}else{
+				def.resolve(workingDirectory);	
+			}
 		}else{
 			console.log("Expected pre-existing working directory clone, but it wasn't found");
 		}

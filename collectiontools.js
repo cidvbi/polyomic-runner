@@ -120,25 +120,33 @@ var commitUpdates = exports.commitUpdates = function(polyrun, workdir,resultMess
 		git.exec("commit",["-m 'commit'"],  function(error,msg) {
 			if (error) { console.log("Error commiting completed results: ", error); return def.reject(error) }
 			console.log("exec checkout master");
-			git.exec("checkout",["master"],function(checkoutError,res){
-				if (checkoutError){
-					console.log("Error Checking out master branch: ", checkoutError);
-					return def.reject(checkoutError);
-				}
-				console.log("merge polyrun");
-				git.exec("merge",["polyrun"], function(mergeErr,msg){
-					if (mergeErr) {
-						console.log("Merging error: ", mergeErr);
-						return def.reject(mergeErr); 
+			if (!polyrun.noBranching){
+				git.exec("checkout",["master"],function(checkoutError,res){
+					if (checkoutError){
+						console.log("Error Checking out master branch: ", checkoutError);
+						return def.reject(checkoutError);
 					}
-					console.log("push origin");
-					git.exec("push",["origin"], function(pushErr,msg){
-						if (pushErr) { return def.reject(pushErr); }
-						process.chdir(startCWD);
-						def.resolve(true);
+					console.log("merge polyrun");
+					git.exec("merge",["polyrun"], function(mergeErr,msg){
+						if (mergeErr) {
+							console.log("Merging error: ", mergeErr);
+							return def.reject(mergeErr); 
+						}
+						console.log("push origin");
+						git.exec("push",["origin"], function(pushErr,msg){
+							if (pushErr) { return def.reject(pushErr); }
+							process.chdir(startCWD);
+							def.resolve(true);
+						});
 					});
 				});
-			});
+			}else{
+				git.exec("push",["origin"], function(pushErr,msg){
+					if (pushErr) { return def.reject(pushErr); }
+					process.chdir(startCWD);
+					def.resolve(true);
+				});
+			}
 		});
 	});
 
