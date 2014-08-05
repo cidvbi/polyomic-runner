@@ -66,3 +66,23 @@ exports.setup = function(polyrun) {
 
 	return def.promise;
 }
+
+exports.setupExisting(polyrun, workingDirectory){
+	var def = new defer();
+	fs.exists(Path.join(workingDirectory), function(exists) {
+		if (exists) {
+			console.log("Working Directory Ready: ", workingDirectory);
+			process.chdir(workingDirectory);
+			git.exec("branch", ["polyrun"], function(branchError,msg){
+				if (branchError) { return def.reject(branchError); }
+				git.exec("checkout",["polyrun"], function(checkoutError, msg) {
+					if (checkoutError) { return def.reject(checkoutError); }
+					def.resolve(dest);
+				});
+			});
+		}else{
+			console.log("Expected pre-existing working directory clone, but it wasn't found");
+		}
+	});
+	return def.promise;
+}

@@ -100,6 +100,7 @@ var addFilesToCommit = exports.addFilesToCommit=function(polyrun, workdir){
 			return Path.join(workdir,name);	
 		})
 
+		console.log("Adding Files to commit: ", addFiles);
 		git.exec("add",addFiles, function(err,msg) {
 			if (err) { return def.reject(err); }
 			def.resolve(msg);
@@ -115,16 +116,20 @@ var commitUpdates = exports.commitUpdates = function(polyrun, workdir,resultMess
 	var startCWD = process.cwd();
 	process.chdir(workdir);
 	when(addFilesToCommit(polyrun,workdir), function() {	
+		console.log("exec commit");
 		git.exec("commit",["-m 'commit'"],  function(error,msg) {
 			if (error) { return def.reject(error) }
+			console.log("exec checkout master");
 			git.exec("checkout",["master"],function(checkoutError,res){
 				if (checkoutError){
 					return def.reject(checkoutError);
 				}
+				console.log("merge polyrun");
 				git.exec("merge",["polyrun"], function(mergeErr,msg){
 					if (mergeErr) {
 						return def.reject(mergeErr); 
 					}
+					console.log("push origin");
 					git.exec("push",["origin"], function(pushErr,msg){
 						if (pushErr) { return def.reject(pushErr); }
 						process.chdir(startCWD);

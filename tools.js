@@ -100,10 +100,11 @@ var generateExecutor = exports.generateExecutor = function(polyrun, workdir) {
 				});
 
 				proc.on('close', function(code,signal) {
+					console.log("Job Complete: ", code, signal);
 					if (code && typeof code=="string") { code = parseInt(code); }
 
 					if (!code) {
-						def.resolve("Job Completed (close)");
+						return def.resolve("Job Completed (close)");
 					}else {	
 						return def.reject("Job Failed - Code: " + code + " Signal: " + signal);
 					}
