@@ -67,7 +67,7 @@ exports.setup = function(polyrun) {
 	return def.promise;
 }
 
-exports.setupExisting(polyrun, workingDirectory){
+var setupExisting = exports.setupExisting = function(polyrun, workingDirectory){
 	var def = new defer();
 	fs.exists(Path.join(workingDirectory), function(exists) {
 		if (exists) {

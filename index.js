@@ -7,6 +7,7 @@ var All = require("promised-io/promise").all;
 var fs = require('fs-extra');
 var request = require('request');
 var setupWorkingDirectory = require("./workingdirectory").setup;
+var setupExisting = require("./workingdirectory").setupExisting;
 var mountCollections= require("./collectiontools").mountCollections;
 var mountJobCollections= require("./collectiontools").mountJobCollections;
 var commitUpdates = require("./collectiontools").commitUpdates;
@@ -74,7 +75,7 @@ var argv = require("optimist")
 
 	var setupWorkDir = function(polyrun){
 		if (argv.noCloneWorkDir){
-			return startPath
+			return setupExisting(polyrun,startPath);
 		}else{
 			return setupWorkingDirectory(polyrun);
 		}
