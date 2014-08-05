@@ -118,15 +118,17 @@ var commitUpdates = exports.commitUpdates = function(polyrun, workdir,resultMess
 	when(addFilesToCommit(polyrun,workdir), function() {	
 		console.log("exec commit");
 		git.exec("commit",["-m 'commit'"],  function(error,msg) {
-			if (error) { return def.reject(error) }
+			if (error) { console.log("Error commiting completed results: ", error); return def.reject(error) }
 			console.log("exec checkout master");
 			git.exec("checkout",["master"],function(checkoutError,res){
 				if (checkoutError){
+					console.log("Error Checking out master branch: ", checkoutError);
 					return def.reject(checkoutError);
 				}
 				console.log("merge polyrun");
 				git.exec("merge",["polyrun"], function(mergeErr,msg){
 					if (mergeErr) {
+						console.log("Merging error: ", mergeErr);
 						return def.reject(mergeErr); 
 					}
 					console.log("push origin");
