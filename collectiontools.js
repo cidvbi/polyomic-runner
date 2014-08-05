@@ -38,6 +38,7 @@ exports.mountJobCollections = function(polyrun,workdir) {
 	var allCollections = toolCollections.concat(collectionMounts);
 
 	return when(mountCollections(polyrun,workdir,allCollections), function(mounted){
+		console.log("Mounted: ", mounted);
 		return mounted;
 	});
 
@@ -55,8 +56,9 @@ var mountCollections = exports.mountCollections = function(polyrun, workdir,coll
 			});
 		});
 
-		return when(All(defs), function() { return metadata; });
+		return when(All(defs), function() { console.log("All Metadata: ", metadata); return metadata; });
 	}else{ 
+		console.log("No Collections, all metadata: ", metadata);
 		return metadata; 
 	}
 }
@@ -140,6 +142,7 @@ var readCollectionMetadata = exports.readCollectionMetadata = function(path) {
 	var def = new defer();
 	console.log("Reading Collection Metadata from : ", path);
 	fs.readJson(Path.join(path, "_metadata.json"),function(err,data){
+		console.log("Collection Meta: ", err, data);
 		if (err) return def.reject(err); 
 		def.resolve(data);
 	});
@@ -180,6 +183,7 @@ var mountCollection = exports.mountCollection = function(polyrun, workdir,basePa
 		when(destDef, function(collectionPath){
 			console.log("Reading Collection Metadata from " + collectionPath);
 			when(readCollectionMetadata(collectionPath), function(colMeta){
+				console.log("colMeta: ", colMeta);
 				if (colMeta && colMeta.name) {
 					var alias = Path.join(workdir,basePath,colMeta.name);
 					fs.exists(alias, function(exists){
