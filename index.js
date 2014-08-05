@@ -49,7 +49,7 @@ var argv = require("optimist")
 		arch: process.arch,
 		env: process.env
 	}
-	iv (argv.version){
+	if (argv.version){
 		console.log("polyrun version:", pkgJson.version);
 		process.exit(0);
 	}
