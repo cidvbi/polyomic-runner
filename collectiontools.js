@@ -91,7 +91,7 @@ var addFilesToCommit = exports.addFilesToCommit=function(polyrun, workdir){
 	var git = new Git();
 	fs.readdir(workdir, function(err, files) {
 		if (err) { return def.reject(err); }
-		var ignores = [".git","tools", "collections"];
+		var ignores = [".git","tools", "collections",/slurm-*.out/];
 		var addFiles = files.filter(function(name) {
 			return !ignores.some(function(ign){
 				return name.match(ign);
