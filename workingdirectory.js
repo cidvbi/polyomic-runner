@@ -77,7 +77,7 @@ var setupExisting = exports.setupExisting = function(polyrun, workingDirectory){
 				if (branchError) { return def.reject(branchError); }
 				git.exec("checkout",["polyrun"], function(checkoutError, msg) {
 					if (checkoutError) { return def.reject(checkoutError); }
-					def.resolve(dest);
+					def.resolve(workingDirectory);
 				});
 			});
 		}else{
