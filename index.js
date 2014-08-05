@@ -35,8 +35,7 @@ var argv = require("optimist")
 	.alias("-B","noBranching")
 	.describe("B","Don't branch the working collection before starting a job or merge when complete")
 	.alias("v","version")
-	.describe("v", "Show version information");
-	
+	.describe("v", "Show version information")
 	.check(function(a){
 		if (!a.file && !a.job){ throw "ERROR: Missing Job id (-j) or Job JSON file (-f)\n" }
 	})
