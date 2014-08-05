@@ -15,6 +15,7 @@ exports.mountJobCollections = function(polyrun,workdir) {
 	if (!polyrun.job.tools) {
 		throw new Error("No Tools Provided for Job Execution");
 	}
+
 	var toolCollections = polyrun.job.tools.map(function(colId){
 		var parsedColUrl = URL.parse(colId);
 		var parts= parsedColUrl.pathname.split("/")	
@@ -137,6 +138,7 @@ var commitUpdates = exports.commitUpdates = function(polyrun, workdir,resultMess
 
 var readCollectionMetadata = exports.readCollectionMetadata = function(path) {
 	var def = new defer();
+	console.log("Reading Collection Metadata from : ", path);
 	fs.readJson(Path.join(path, "_metadata.json"),function(err,data){
 		if (err) return def.reject(err); 
 		def.resolve(data);
@@ -146,6 +148,7 @@ var readCollectionMetadata = exports.readCollectionMetadata = function(path) {
 
 var mountCollection = exports.mountCollection = function(polyrun, workdir,basePath,id) {
 	var collectionPath = Path.join(workdir,basePath,id);
+	console.log("Mounting Collection: ", id, collectionPath);
 	var def = new defer();
 	var dependencies = {};
 	when(checkForLocalCollection(polyrun, id), function(checkResults){
@@ -175,12 +178,20 @@ var mountCollection = exports.mountCollection = function(polyrun, workdir,basePa
 
 		var metaDef = new defer();
 		when(destDef, function(collectionPath){
+			console.log("Reading Collection Metadata from " + collectionPath);
 			when(readCollectionMetadata(collectionPath), function(colMeta){
 				if (colMeta && colMeta.name) {
 					var alias = Path.join(workdir,basePath,colMeta.name);
-					fs.symlink(collectionPath,alias, function(err){
-						if (err) { console.warn("Error creating Alias '" + alias + "' for cloned collection at " + collectionPath, err); }
-						metaDef.resolve(colMeta);
+					fs.exists(alias, function(exists){
+						if (exists) { 
+							console.log("Alias '" + alias + "' already exists for cloned collection at " + collectionPath + ". Skipping alias creation."); 
+							metaDef.resolve(colMeta);	
+						}else{
+							fs.symlink(collectionPath,alias, function(err){
+								if (err) { console.warn("Error creating Alias '" + alias + "' for cloned collection at " + collectionPath, err); }
+								metaDef.resolve(colMeta);
+							});
+						}
 					});
 				}else{
 					metaDef.resolve(colMeta);
