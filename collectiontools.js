@@ -116,11 +116,11 @@ var commitUpdates = exports.commitUpdates = function(polyrun, workdir,resultMess
 	var startCWD = process.cwd();
 	process.chdir(workdir);
 	when(addFilesToCommit(polyrun,workdir), function() {	
-		console.log("exec commit");
+		console.log("Commit new and updated files");
 		git.exec("commit",["-m 'commit'"],  function(error,msg) {
 			if (error) { console.log("Error commiting completed results: ", error); return def.reject(error) }
-			console.log("exec checkout master");
 			if (!polyrun.noBranching){
+				console.log("exec checkout master");
 				git.exec("checkout",["master"],function(checkoutError,res){
 					if (checkoutError){
 						console.log("Error Checking out master branch: ", checkoutError);
@@ -141,8 +141,9 @@ var commitUpdates = exports.commitUpdates = function(polyrun, workdir,resultMess
 					});
 				});
 			}else{
+				console.log("Push collection changes back to repository");
 				git.exec("push",["origin"], function(pushErr,msg){
-					if (pushErr) { return def.reject(pushErr); }
+					if (pushErr) { console.log("Error pushing commits to repo: ", pushErr); return def.reject(pushErr); }
 					process.chdir(startCWD);
 					def.resolve(true);
 				});
