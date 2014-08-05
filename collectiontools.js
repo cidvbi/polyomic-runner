@@ -120,7 +120,7 @@ var commitUpdates = exports.commitUpdates = function(polyrun, workdir,resultMess
 		git.exec("commit",["-m 'commit'"],  function(error,msg) {
 			if (error) { console.log("Error commiting completed results: ", error); return def.reject(error) }
 			if (!polyrun.noBranching){
-				console.log("exec checkout master");
+				console.log("Checkout master branch");
 				git.exec("checkout",["master"],function(checkoutError,res){
 					if (checkoutError){
 						console.log("Error Checking out master branch: ", checkoutError);

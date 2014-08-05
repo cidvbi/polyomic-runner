@@ -63,6 +63,7 @@ var argv = require("optimist")
 	});
 
 	if (argv.noBranching){
+		console.log("Branching is disabled.");
 		polyrun.noBranching = true;
 	}
 
