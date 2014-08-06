@@ -157,16 +157,8 @@ var readCollectionMetadata = exports.readCollectionMetadata = function(path) {
 	console.log("Reading Collection Metadata from : ", path);
 	fs.readJson(Path.join(path, "_metadata.json"),function(err,data){
 		console.log("Collection Meta: ", err, data);
-		if (data.type=="toolbox"){
-			fs.readJson(Path.join(path,"toolbox.json"), function(err,tbdata){
-				if (err) return def.reject(err);
-				data.toolConfig = tbdata;
-				def.resolve(data);
-			});
-		}else{
-			if (err) return def.reject(err); 
-			def.resolve(data);
-		}
+		if (err) return def.reject(err); 
+		def.resolve(data);
 	});
 	return def.promise;
 }
