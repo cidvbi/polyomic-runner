@@ -101,7 +101,7 @@ var argv = require("optimist")
 			return when(mountJobCollections(polyrun, workdir), function(metadata){
 				polyrun._collectionMeta = metadata;
 				return when(setupTools(polyrun, workdir), function(executor){
-					//console.log("Run Config: ", polyrun);
+					console.log("Run Config: ", polyrun);
 					return when(timer(executor), function(timerResults) {
 						console.log("Execution Timer: ", new Date(timerResults.start), new Date(timerResults.end), (timerResults.duration/1000) + " seconds");
 						resultMessage=timerResults.result;

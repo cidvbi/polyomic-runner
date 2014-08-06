@@ -1,1 +1,1 @@
-echo "HI"
+echo "EXEC BLAST"

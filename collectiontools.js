@@ -7,7 +7,6 @@ var Git = require("git-wrapper");
 var URL = require("url");
 
 exports.mountJobCollections = function(polyrun,workdir) {
-	var def = new defer();
 	var DepTree= {};
 	console.log("Mount Job Collections into Working Directory.");
 	
@@ -42,7 +41,6 @@ exports.mountJobCollections = function(polyrun,workdir) {
 		return mounted;
 	});
 
-	return def.promise;
 }
 
 var mountCollections = exports.mountCollections = function(polyrun, workdir,collections) {
@@ -159,8 +157,16 @@ var readCollectionMetadata = exports.readCollectionMetadata = function(path) {
 	console.log("Reading Collection Metadata from : ", path);
 	fs.readJson(Path.join(path, "_metadata.json"),function(err,data){
 		console.log("Collection Meta: ", err, data);
-		if (err) return def.reject(err); 
-		def.resolve(data);
+		if (data.type=="toolbox"){
+			fs.readJson(Path.join(path,"toolbox.json"), function(err,tbdata){
+				if (err) return def.reject(err);
+				data.toolConfig = tbdata;
+				def.resolve(data);
+			});
+		}else{
+			if (err) return def.reject(err); 
+			def.resolve(data);
+		}
 	});
 	return def.promise;
 }

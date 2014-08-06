@@ -2,5 +2,5 @@
 
 export POLYRUN="TEST"
 
-<% Object.keys(_collectionMeta.tools).forEach(function(key){var t = _collectionMeta.tools[key];	if (t.toolSetpuScripts) {t.toolSetupScripts.forEach(function(setupScript,index) { 
+<% Object.keys(_collectionMeta.tools).forEach(function(key){var t = _collectionMeta.tools[key];	if (t.toolSetupScripts) {t.toolSetupScripts.forEach(function(setupScript,index) { 
 		if (index>0) { %> && <% } %>./tools/<%= key %>/<%= setupScript.path %><% })}})%>
