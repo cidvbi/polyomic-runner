@@ -1,10 +1,9 @@
-#!/bin/bash
 
 <% Object.keys(_collectionMeta.tools).forEach(function(key){
 		var t = _collectionMeta.tools[key];	
 		if (t.toolSetupScripts) {
 			t.toolSetupScripts.forEach(function(setupScript,index) { 
-			%>source ./tools/<%= key %>/<%= setupScript.path %>
+			%>source ./tools/<%= key %>/<%= setupScript.path %> ./tools/<%= key %>
 		        <%})
 		}
 })%>
